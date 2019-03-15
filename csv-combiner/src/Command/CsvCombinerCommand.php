@@ -44,7 +44,7 @@ class CsvCombinerCommand extends Command
                     }
                     $extension = pathinfo($file, PATHINFO_EXTENSION);
                     if (!in_array($extension, self::ALLOWED_FILE_TYPES)) {
-                        throw new InvalidArgumentException($file.' is not a file with the csv extension');
+                        throw new InvalidArgumentException($file.' is not a file with a csv extension');
                     }
                 } else {
                     throw new FileNotFoundException(null, 0, null, $file);
@@ -53,8 +53,8 @@ class CsvCombinerCommand extends Command
         } catch (InvalidArgumentException | FileNotFoundException $fnfe) {
             // let's provide some feedback
             $output->writeln($fnfe->getMessage());
-            // and then re-throw the exception
-            throw $fnfe;
+            // and then exit with an error code
+            exit(1);
         }
 
         $isHeaderSet = false;
